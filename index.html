@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="S3PO-GS">
+  <meta name="keywords" content="3DGS, SLAM">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="twitter:card" content="summary">
+  <!-- <meta name="twitter:image:src" content="http://marigoldmonodepth.github.io/images/marigold_logo_square.jpg"> -->
+  <!-- <meta name="twitter:title" content="Marigold Depth"> -->
+  <!-- <meta name="twitter:description" content="Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation"> -->
+  <!-- <meta name="twitter:creator" content="@AntonObukhov1">
+
+  <title>OpenGS-SLAM</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1FWSVCGZTG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-1FWSVCGZTG');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/bulma.min.css">
+  <link rel="stylesheet" href="./css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./css/twentytwenty.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="icon" href="./images/gvkf-logo.svg">
+
+  <script src="./js/jquery-3.2.1.min.js"></script>
+  <script src="./js/jquery.event.move.js"></script>
+  <script src="./js/jquery.twentytwenty.js"></script>
+  <script src="./js/bulma-carousel.min.js"></script>
+  <script src="./js/bulma-slider.min.js"></script>
+  <script src="./js/fontawesome.all.min.js"></script>
+
+  <!--MathJax-->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <!-- 标题 -->
+            <h1 class="title is-1 publication-title">3D Skew Gaussian Splatting</h1>
+            
+            <!-- 会议信息 -->
+            <h3 class="title has-text-centered">ICRA 2026</h3>
+            
+            <!-- 作者信息 -->
+            <h3 class="title has-text-centered" style="font-size: 1.2em;">
+              <a href="https://scholar.google.com.hk/citations?hl=zh-CN&user=EQzf4ScAAAAJ" style="color: inherit;">Beizhen Zhao</a>,
+              Yifan Zhou,
+              <a href="http://scholar.google.com/citations?hl=zh-CN&user=qX801o4AAAAJ" style="color: inherit;">Zijian Wang</a>,  
+              <a href="https://wanghao.tech/" style="color: inherit;">Hao Wang</a><sup>✉️</sup>
+            </h3>
+            
+            <!-- 学校名称 -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">The Hong Kong University of Science and Technology (GuangZhou)</span>
+            </div>
+            
+            <!-- arXiv 和 Code 超链接 --> <!-- 现在还没改，依然是outdoor的链接 -->
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- arXiv 链接 -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2507.03737" target="_blank" rel="noopener noreferrer"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf" style="color: orangered"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                
+                <!-- Code 链接 -->
+                <span class="link-block">
+                  <a href="https://github.com/3DAgentWorld/S3PO-GS" target="_blank" rel="noopener noreferrer"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <section class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            3D Gaussian Splatting (3DGS) has revolutionized
+3D reconstruction and rendering, enabling photorealistic novel
+view synthesis from sparse images. However, the fundamental
+reliance on 3D Gaussian distributions struggles to capture shape
+and color discontinuities in real-world scenes, such as sharp
+edges and intricate surface details. In this paper, we introduce
+3DSGS (3D Skew Gaussian Splatting), a novel framework that
+significantly enhances the accuracy and efficiency of Gaussian-
+based neural scene representation. Our key insight lies in
+extending the original 3D Gaussian to its more general Skew
+Gaussian counterpart, where the original Gaussian distribution
+emerges as a special symmetric case. This generalized primitive
+inherits all desirable properties of Gaussians while gaining
+intrinsic asymmetric modeling capability, enabling more accu-
+rate representations for complex scenes. Then we propose a
+refined representation for the opacity parameter, increasing the
+flexibility of each skew Gaussian to better handle transparency
+and fine structures. Furthermore, we introduce a depth-aware
+densification criterion that intelligently manages the creation,
+splitting, and cloning of skew Gaussians. Extensive experiments
+demonstrate that 3DSGS achieves superior rendering quality,
+particularly in regions with intricate details, transparency, and
+view-dependent effects with real-time rendering speed. The code
+will be open-sourced upon paper acceptance.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five">
+        <!--<h2 class="title is-3">How it works</h2> -->
+        <div class="content has-text-justified">
+
+          <img id="method_train" width="100%" src="./image/teaser.png" alt="Marigold training scheme"/>
+
+          <p>
+            \(\textbf{Localization and novel view synthesis results on KITTI.}\) Our method S3PO-GS maintains robust tracking and high-quality novel view synthesis even in cases of large-angle turns. 
+            This is achieved through our self-consistent 3DGS pointmap tracking and the patch-based pointmap dynamic mapping module.
+          </p>  
+
+          <h2 class="title has-text-centered">
+            Pipeline for 3D Skew Gaussian Splatting
+          </h2>
+
+          <p>
+            We extend the 3D Gaussians into 3D Skew Gaussians by adding an additional
+parameter skewness. We derive and implement the splatting pipeline which contains the forward and backward pass of the rasterizer. In the optimization
+stage, we design a depth-aware densification criterion for more accurate skew gaussians splitting.
+          </p>
+
+          <img id="method_train" width="100%" src="./image/framework1.png" alt="Marigold training scheme"/>
+
+          <h2 class="title has-text-centered">
+            Comparison with other methods
+          </h2>
+
+          <p>
+            We compare our method with the original 3DGS as well as several recent advancements that focus on core improvements within the 3DGS paradigm, conducting evaluations on three benchmark datasets.
+            For efficiency, we report FPS, training time, and the number of kernels, while for novel view rendering quality, we evaluate PSNR, SSIM, and LPIPS. 
+            Compared with baseline methods, our approach achieves a more faithful reconstruction of intricate scene details, while maintaining competitive computational efficiency.
+          </p>
+
+          <img id="method_inference" width="100%" src="./image/实验表格1.png" alt="Marigold inference scheme" style="display: block; margin: 0 auto;"/>
+          <img id="method_inference" width="100%" src="./image/实验表格2.png" alt="Marigold inference scheme" style="display: block; margin: 0 auto;"/>
+    
+        </div>
+      </div>
+    </div>
+    <!--/ Method. -->
+  </div>
+</section>
+
+
+<section class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+  <div class="container">
+    <h2 class="title has-text-centered">Novel View Rendering</h2>
+    <div style="width: 80%; margin: 0 auto; text-align: left;">
+      <p>
+        Visual differences are highlighted with red insets for better clarity. Our approach consistently outperforms other models on
+        Mip-NeRF 360, Tanks & Temples and Deep Blending dataset, demonstrating clear advantages in challenging scenarios such as thin geometries and fine-scale details. Best viewed in color.
+      </p>
+    </div>
+
+    <div class="carousel" style="position: relative; overflow: hidden;">
+      <!-- Carousel Items -->
+      <div class="carousel-item is-active">
+        <figure class="image">
+          <img src="./image/e1.png" alt="main Rendering" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 0 auto;">
+          <figcaption class="has-text-centered has-text-weight-semibold" style="margin-top: 12px; font-size: 1.2rem;">Mip-NeRF 360 </figcaption>
+        </figure>
+      </div>
+      <div class="carousel-item">
+        <figure class="image">
+          <img src="./image/e2.png" alt="Waymo Rendering" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 0 auto;">
+          <figcaption class="has-text-centered has-text-weight-semibold" style="margin-top: 12px; font-size: 1.2rem;">Tanks & Temples and Deep Blending</figcaption>
+        </figure>
+      </div>
+      <div class="carousel-item">
+        <figure class="image">
+          <img src="./image/e3.png" alt="KITTI Rendering" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 0 auto;">
+          <figcaption class="has-text-centered has-text-weight-semibold" style="margin-top: 12px; font-size: 1.2rem;">KITTI</figcaption>
+        </figure>
+      </div>
+
+      <!-- 添加导航按钮 -->
+      <button class="carousel-navigation left">
+        <i class="fas fa-chevron-left"></i> <!-- 左箭头图标 -->
+      </button>
+      <button class="carousel-navigation right">
+        <i class="fas fa-chevron-right"></i> <!-- 右箭头图标 -->
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+  <div class="container">
+    <h2 class="title has-text-centered">Comparison of tracking trajectories</h2>
+    <div style="width: 80%; margin: 0 auto; text-align: left;">
+      <p>
+        Under large viewpoint changes, MonoGS struggles to track, while OpenGS-SLAM exhibits instability. 
+        In contrast, our method achieves superior robustness.
+      </p>
+    </div>
+
+    <!-- 并排图片区域 -->
+    <div style="display: flex; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+      <figure class="image" style="flex: 1 1 40%; max-width: 45%;">
+        <img src="./image/轨迹图1.png" alt="Trajectory Image 1" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+      </figure>
+      <figure class="image" style="flex: 1 1 40%; max-width: 45%;">
+        <img src="./image/轨迹图2.png" alt="Trajectory Image 2" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!--
+<section class="section" id="BibTeX">
+  <div class="container">
+    <div style="width: 80%; margin: 0 auto;">
+      <h2 class="title">Citation</h2>
+      <pre class="selectable"><code>@InProceedings{ke2023repurposing,
+    title={Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation},
+    author={Bingxin Ke and Anton Obukhov and Shengyu Huang and Nando Metzger and Rodrigo Caye Daudt and Konrad Schindler},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    year={2024}
+}</code></pre>
+    </div>
+  </div>
+</section>
+-->
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Citation</h2>
+    <pre class="selectable"><code>@article{cheng2025outdoor,
+  title={Outdoor Monocular SLAM with Global Scale-Consistent 3D Gaussian Pointmaps},
+  author={Cheng, Chong and Yu, Sicheng and Wang, Zijian and Zhou, Yifan and Wang, Hao},
+  journal={arXiv preprint arXiv:2507.03737},
+  year={2025}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer pt-4 pb-0">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website template based on
+            <a href="https://marigoldmonodepth.github.io">
+              marigold
+            </a>
+            and licensed under
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+              CC-BY-SA-4.0
+            </a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 添加的样式 -->
+<style>
+  .carousel {
+      display: flex;
+      justify-content: center; /* 水平居中 */
+      align-items: center;     /* 垂直居中 */
+      overflow: hidden;        /* 隐藏不在当前显示区域的图片 */
+      width: 100%;
+      text-align: center;
+      position: relative;
+  }
+
+  .carousel .carousel-item {
+      display: none;           /* 默认隐藏所有图片 */
+      width: 100%;
+  }
+
+  .carousel .carousel-item.is-active {
+      display: block;          /* 只显示激活的图片 */
+  }
+
+  .carousel img, .image img {
+      display: block;
+      margin: 0 auto;
+      width: 80%;
+      max-width: 80%;
+      height: auto;
+  }
+
+ /* 导航按钮样式 */
+.carousel-navigation {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  color: white;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 50%; /* 圆形按钮 */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+  transition: background-color 0.3s ease; /* 添加平滑过渡效果 */
+}
+
+.carousel-navigation:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* 鼠标悬停时变暗 */
+}
+
+.carousel-navigation.left {
+  left: 10px;
+}
+
+.carousel-navigation.right {
+  right: 10px;
+}
+
+/* 导航按钮中的箭头样式 */
+.carousel-navigation i {
+  font-size: 24px; /* 箭头图标大小 */
+}
+
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentIndex = 0;
+    const items = document.querySelectorAll('.carousel .carousel-item');
+    const totalItems = items.length;
+
+    function showImage(index) {
+      items[currentIndex].classList.remove('is-active');
+      currentIndex = (index + totalItems) % totalItems;
+      items[currentIndex].classList.add('is-active');
+    }
+
+    function showNextImage() {
+      showImage(currentIndex + 1);
+    }
+
+    function showPreviousImage() {
+      showImage(currentIndex - 1);
+    }
+
+    // 添加导航按钮的点击事件
+    document.querySelector('.carousel-navigation.left').addEventListener('click', showPreviousImage);
+    document.querySelector('.carousel-navigation.right').addEventListener('click', showNextImage);
+  });
+</script>
+
+
+</body>
+</html>
