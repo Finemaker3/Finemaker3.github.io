@@ -1,2 +1,2 @@
-## S3PO-GS Website
-https://3dagentworld.github.io/S3PO-GS/
+## 3D-Skew-GS Website
+https://Finemaker3.github.io/S3PO-GS/
